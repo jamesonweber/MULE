@@ -5,8 +5,26 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="798c2ae6bbef41b0acd61f2f1e939b9d" Name="Diagram1">
-        <EntityTypeShape EntityType="muleModel.follower" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="muleModel.user" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="muleModel.user" Width="1.5" PointX="7.875" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="muleModel.comment" Width="1.5" PointX="7.75" PointY="8.125" />
+        <EntityTypeShape EntityType="muleModel.group" Width="1.5" PointX="0.5" PointY="4.25" />
+        <EntityTypeShape EntityType="muleModel.mapping" Width="1.5" PointX="7.75" PointY="10.75" />
+        <EntityTypeShape EntityType="muleModel.positioning" Width="1.5" PointX="5.125" PointY="10.5" />
+        <EntityTypeShape EntityType="muleModel.post" Width="1.5" PointX="4.125" PointY="6.75" />
+        <EntityTypeShape EntityType="muleModel.sensor" Width="1.5" PointX="0.625" PointY="10.375" />
+        <EntityTypeShape EntityType="muleModel.sensor_details" Width="1.5" PointX="2.875" PointY="10.375" />
+        <EntityTypeShape EntityType="muleModel.user_group" Width="1.5" PointX="4.125" PointY="3.5" />
+        <AssociationConnector Association="muleModel.FK_comments_posts" />
+        <AssociationConnector Association="muleModel.FK_comments_users" />
+        <AssociationConnector Association="muleModel.FK_groups_users" />
+        <AssociationConnector Association="muleModel.FK_posts_groups" />
+        <AssociationConnector Association="muleModel.FK_user_group_groups" />
+        <AssociationConnector Association="muleModel.FK_mapping_positioning" />
+        <AssociationConnector Association="muleModel.FK_positioning_posts" />
+        <AssociationConnector Association="muleModel.FK_posts_users" />
+        <AssociationConnector Association="muleModel.FK_sensor_posts" />
+        <AssociationConnector Association="muleModel.FK_sensor_details_sensor" />
+        <AssociationConnector Association="muleModel.FK_user_group_users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

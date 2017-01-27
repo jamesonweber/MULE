@@ -12,32 +12,29 @@ namespace MULE.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class user
+    public partial class post
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public user()
+        public post()
         {
             this.comments = new HashSet<comment>();
-            this.groups = new HashSet<group>();
-            this.posts = new HashSet<post>();
-            this.user_group = new HashSet<user_group>();
+            this.positionings = new HashSet<positioning>();
+            this.sensors = new HashSet<sensor>();
         }
     
+        public int post_id { get; set; }
+        public int group_id { get; set; }
         public int user_id { get; set; }
-        public string first_name { get; set; }
-        public string last_name { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
-        public int is_premium { get; set; }
-        public string confirm_password { get; set; }
+        public string post_status { get; set; }
+        public System.DateTime post_date { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<comment> comments { get; set; }
+        public virtual group group { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<group> groups { get; set; }
+        public virtual ICollection<positioning> positionings { get; set; }
+        public virtual user user { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<post> posts { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<user_group> user_group { get; set; }
+        public virtual ICollection<sensor> sensors { get; set; }
     }
 }

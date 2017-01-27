@@ -169,6 +169,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\AccountController backup.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -176,11 +177,17 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\follower.cs">
+    <Compile Include="Models\comment.cs">
+      <DependentUpon>MuleModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\group.cs">
       <DependentUpon>MuleModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\mapping.cs">
+      <DependentUpon>MuleModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\MuleModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -196,7 +203,23 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MuleModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\positioning.cs">
+      <DependentUpon>MuleModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\post.cs">
+      <DependentUpon>MuleModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sensor.cs">
+      <DependentUpon>MuleModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sensor_details.cs">
+      <DependentUpon>MuleModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\user.cs">
+      <DependentUpon>MuleModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserManager.cs" />
+    <Compile Include="Models\user_group.cs">
       <DependentUpon>MuleModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -280,6 +303,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

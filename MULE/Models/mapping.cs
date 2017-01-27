@@ -12,10 +12,12 @@ namespace MULE.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class follower
+    public partial class mapping
     {
-        public int follower_id { get; set; }
-        public int brower_user_id { get; set; }
-        public int creator_user_id { get; set; }
+        public int mapping_id { get; set; }
+        public int position_id { get; set; }
+        public double echo_depth { get; set; }
+    
+        public virtual positioning positioning { get; set; }
     }
 }

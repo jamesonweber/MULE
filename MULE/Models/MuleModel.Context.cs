@@ -25,7 +25,14 @@ namespace MULE.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<follower> followers { get; set; }
         public virtual DbSet<user> users { get; set; }
+        public virtual DbSet<comment> comments { get; set; }
+        public virtual DbSet<group> groups { get; set; }
+        public virtual DbSet<mapping> mappings { get; set; }
+        public virtual DbSet<positioning> positionings { get; set; }
+        public virtual DbSet<post> posts { get; set; }
+        public virtual DbSet<sensor> sensors { get; set; }
+        public virtual DbSet<sensor_details> sensor_details { get; set; }
+        public virtual DbSet<user_group> user_group { get; set; }
     }
 }

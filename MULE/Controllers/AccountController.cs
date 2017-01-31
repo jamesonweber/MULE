@@ -49,7 +49,7 @@ namespace MULE.Controllers
                 {
                     UM.AddUserAccount(model);
                     FormsAuthentication.SetAuthCookie(model.first_name, false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("FrontPage", "Account");
 
                 }
                 else
@@ -57,6 +57,14 @@ namespace MULE.Controllers
             }
             // somthing went wrong so return to page if there is an error
             return View(model);
+        }
+
+        //
+        // GET: /Account/FrontPage
+        [Authorize]
+        public ActionResult FrontPage()
+        {
+            return View();
         }
     }
 }

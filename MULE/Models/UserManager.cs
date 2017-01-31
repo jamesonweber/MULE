@@ -8,6 +8,7 @@ namespace MULE.Models
     public class UserManager
     {
 
+        // http://proudmonkey.azurewebsites.net/building-web-application-using-entity-framework-and-mvc-5-part-1/
         public void AddUserAccount(user u)
         {
 

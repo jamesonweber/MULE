@@ -29,6 +29,38 @@ namespace MULE.Controllers
         }
 
         //
+        // POST: /Account/Login
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(user model)
+        {
+            if (ModelState.IsValid)
+            {
+                UserManager UM = new UserManager();
+                String password = UM.getUserPassword(model.email);
+                if(password.Equals(UserManager.sha256_hash(model.password)))
+                {
+                    FormsAuthentication.SetAuthCookie(model.email, false);
+                    return RedirectToAction("FrontPage", "Account");
+                }
+                else
+                    ModelState.AddModelError("", "Invalid credentials.");
+            }
+            // somthing went wrong so return to page if there is an error
+            return View(model);
+        }
+
+        //
+        // POST: /Account/LogOff
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LogOff()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index", "Home");
+        }
+
+        //
         // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
@@ -48,7 +80,7 @@ namespace MULE.Controllers
                 if (!UM.doesEmailExist(model.email))
                 {
                     UM.AddUserAccount(model);
-                    FormsAuthentication.SetAuthCookie(model.first_name, false);
+                    FormsAuthentication.SetAuthCookie(model.email, false);
                     return RedirectToAction("FrontPage", "Account");
 
                 }
@@ -65,6 +97,37 @@ namespace MULE.Controllers
         public ActionResult FrontPage()
         {
             return View();
+        }
+
+
+        //
+        // GET: /Account/Groups
+        [Authorize]
+        public ActionResult Groups()
+        {
+            return View();
+        }
+
+        //
+        // GET: /Account/Search
+        [Authorize]
+        public ActionResult Search()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Account/Login
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Search(group model)
+        {
+            if (ModelState.IsValid)
+            {
+                
+            }
+            // somthing went wrong so return to page if there is an error
+            return View(model);
         }
     }
 }

@@ -31,6 +31,10 @@ textarea {
 
 /* Text and color overwrites */
 
+.text-danger {
+    color:#FF9090
+}
+
 a {
     color: #00ccff
 }

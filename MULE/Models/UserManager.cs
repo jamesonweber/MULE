@@ -37,6 +37,18 @@ namespace MULE.Models
             }
         }
 
+        public String getUserPassword(string email)
+        {
+            using (muleEntities db = new muleEntities())
+            {
+                var user = db.users.Where(o => o.email.ToLower().Equals(email));
+                if (user.Any())
+                    return user.FirstOrDefault().password;
+                else
+                    return "";
+            }
+        }
+
         //http://stackoverflow.com/questions/16999361/obtain-sha-256-string-of-a-string
         public static String sha256_hash(String value)
         {

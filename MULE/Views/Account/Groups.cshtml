@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "Groups";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Groups</h2>
+<div class="row">
+    <div class="col-md-12">
+        <section id="loginForm">
+            @using (Html.BeginForm("Groups", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <h4>Manage your groups.</h4>
+                <hr />
+            }
+        </section>
+    </div>
+</div>
+

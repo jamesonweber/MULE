@@ -303,6 +303,7 @@
     <Content Include="Views\Account\FrontPage.cshtml" />
     <Content Include="Views\Account\Groups.cshtml" />
     <Content Include="Views\Account\Search.cshtml" />
+    <Content Include="Views\Account\CreateGroup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -82,7 +82,6 @@ namespace MULE.Controllers
                     UM.AddUserAccount(model);
                     FormsAuthentication.SetAuthCookie(model.email, false);
                     return RedirectToAction("FrontPage", "Account");
-
                 }
                 else
                     ModelState.AddModelError("", "Email is already in use.");
@@ -109,6 +108,28 @@ namespace MULE.Controllers
         }
 
         //
+        // GET: /Account/CreateGroup
+        [Authorize]
+        public ActionResult CreateGroup()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Account/CreateGroup
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateGroup(group model)
+        {
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Groups", "Account");
+            }
+            // somthing went wrong so return to page if there is an error
+            return View(model);
+        }
+
+        //
         // GET: /Account/Search
         [Authorize]
         public ActionResult Search()
@@ -117,9 +138,8 @@ namespace MULE.Controllers
         }
 
         //
-        // POST: /Account/Login
+        // POST: /Account/Search
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Search(group model)
         {
             if (ModelState.IsValid)

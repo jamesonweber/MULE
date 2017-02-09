@@ -121,18 +121,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_groups_users">
-          <End Role="users" Type="Self.users" Multiplicity="1" />
-          <End Role="groups" Type="Self.groups" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="users">
-              <PropertyRef Name="user_id" />
-            </Principal>
-            <Dependent Role="groups">
-              <PropertyRef Name="user_owner_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_mapping_positioning">
           <End Role="positioning" Type="Self.positioning" Multiplicity="1" />
           <End Role="mapping" Type="Self.mapping" Multiplicity="*" />
@@ -246,10 +234,6 @@
           <AssociationSet Name="FK_comments_users" Association="Self.FK_comments_users">
             <End Role="users" EntitySet="users" />
             <End Role="comments" EntitySet="comments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_groups_users" Association="Self.FK_groups_users">
-            <End Role="users" EntitySet="users" />
-            <End Role="groups" EntitySet="groups" />
           </AssociationSet>
           <AssociationSet Name="FK_mapping_positioning" Association="Self.FK_mapping_positioning">
             <End Role="positioning" EntitySet="positioning" />

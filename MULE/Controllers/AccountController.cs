@@ -123,7 +123,16 @@ namespace MULE.Controllers
         {
             if (ModelState.IsValid)
             {
-                return RedirectToAction("Groups", "Account");
+
+                GroupManager GM = new GroupManager();
+                if (!GM.doesGroupExist(model.group_name))
+                {
+                    GM.AddGroup(model, User.Identity.Name);
+                    return RedirectToAction("Groups", "Account");
+                }
+                else
+                    ModelState.AddModelError("", "Group name is already in use.");
+                
             }
             // somthing went wrong so return to page if there is an error
             return View(model);

@@ -37,6 +37,18 @@ namespace MULE.Models
             }
         }
 
+        public int getUserId(string email)
+        {
+            using (muleEntities db = new muleEntities())
+            {
+                var user = db.users.Where(o => o.email.ToLower().Equals(email));
+                if (user.Any())
+                    return user.FirstOrDefault().user_id;
+                else
+                    return -1;
+            }
+        }
+
         public String getUserPassword(string email)
         {
             using (muleEntities db = new muleEntities())

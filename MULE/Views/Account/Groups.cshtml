@@ -49,9 +49,9 @@
             @:<div class="row">
                 @:<div class="col-md-12">
                 @:<div class="card">
-                    @:<h2>
+                    @:<h3>
                         @g.groupName
-                    @:</h2>
+                    @:</h3>
                     @:<p>
                         @g.groupDesc
                     @:</p>
@@ -61,6 +61,21 @@
                 @:</div>
                 @:</div>
             @:</div>
+        }
+        if(usergroups.Count() == 0)
+        {
+            @:<div class="row">
+            @:<div class="col-md-12">
+                @:<div class="card">
+                    @:<h3>
+                        @:You are currently not a member of any groups
+                    @:</h3>
+                            @:<p>
+                                @Html.ActionLink("Find a new group here", "Search", "Account")
+                            @:</p>
+                 @:</div>
+             @:</div>
+             @:</div>
         }
     }
 

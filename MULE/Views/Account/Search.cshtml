@@ -14,11 +14,60 @@
                 <h4>Find new groups.</h4>
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="col-md-12">
-                        @Html.TextBoxFor(m => m.group_name, new { @class = "form-control-search" })
-                        <input type="submit" value="Search" style="display: inline;" class="btn btn-default" />
-                    </div>
+                <div class="col-md-12">
+                    @Html.TextBoxFor(m => m.group_name, new { @class = "form-control-search" })
+                    <input type="submit" value="Search" style="display: inline;" class="btn btn-default" />
+                </div>
+                <hr />
             }
         </section>
     </div>
 </div>
+
+@{
+
+    using (muleEntities db = new muleEntities())
+    {
+        var groupsSearch =
+        (from g in db.groups.OrderByDescending(x => x.group_id)
+         select new
+         {
+             groupID = g.group_id,
+             groupName = g.group_name,
+             groupDesc = g.description
+         }).ToList().Take(5);
+
+
+        @:<h2>
+            @:Recomended groups
+        @:</h2>
+        @:<div class="row">
+            @:<div class="col-md-12">
+            @:<h4>
+                @:Explore new groups.
+            @:</h4>
+            <hr />
+            @:</div>
+        @:</div>
+        foreach (var g in groupsSearch)
+        {
+            @:<div class="row">
+                @:<div class="col-md-12">
+                    @:<div class="card">
+                        @:<h3> 
+                            @g.groupName
+                        @:</h3>
+
+                        @:<p>
+                            @g.groupDesc
+                            @:</p>
+                        @Html.ActionLink("View Group Page", "Groups", "Account")
+                        @:</div>
+                    @:</div>
+                @:</div>
+        }
+    }
+
+
+
+}

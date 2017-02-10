@@ -1,4 +1,5 @@
-﻿
+﻿@using MULE.Models
+
 @{
     ViewBag.Title = "Groups";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -25,4 +26,45 @@
         
     </div>
 </div>
+
+@{
+    UserManager UM = new UserManager();
+
+    int user_id = UM.getUserId(User.Identity.Name);
+    using (muleEntities db = new muleEntities())
+    {
+        var usergroups =
+        (from ug in db.user_group
+         join g in db.groups on ug.group_id equals g.group_id
+         where ug.user_id == user_id
+         select new
+         {
+             groupID = ug.group_id,
+             groupName = g.group_name,
+             groupDesc = g.description
+         }).ToList();
+
+        foreach (var g in usergroups)
+        {
+            @:<div class="row">
+                @:<div class="col-md-12">
+                @:<div class="card">
+                    @:<h2>
+                        @g.groupName
+                    @:</h2>
+                    @:<p>
+                        @g.groupDesc
+                    @:</p>
+                    @Html.ActionLink("View Group Page", "Groups", "Account")
+                    @:|
+                    @Html.ActionLink("Leave Group", "Groups", "Account")
+                @:</div>
+                @:</div>
+            @:</div>
+        }
+    }
+
+
+
+}
 

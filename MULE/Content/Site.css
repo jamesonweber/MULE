@@ -85,7 +85,7 @@ a:hover {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.card
+.card-index
 {
     background-color:#ffffff;
     color:#232323;
@@ -96,6 +96,27 @@ a:hover {
     display:table;
     min-height:175px;
     width:100%;
+}
+
+.card
+{
+    background-color:#ffffff;
+    color:#232323;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding-left:15px;
+    padding-right:15px;
+    padding-bottom:15px;
+    margin-top:10px;
+    height:100%;
+    display:table;
+    width:100%;
+}
+.card > a {
+    color: #00beee;
+}
+
+.card > a:hover {
+    color:#16d0ff;
 }
 
 .imgcard

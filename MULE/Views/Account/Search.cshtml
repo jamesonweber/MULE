@@ -9,7 +9,7 @@
 <div class="row">
     <div class="col-md-12">
         <section id="searchForm">
-            @using (Html.BeginForm("Search", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            @using (Html.BeginForm("Search", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", @placeholder = "Search by group name" }))
             {
                 <h4>Find new groups.</h4>
                 <hr />
@@ -24,50 +24,115 @@
     </div>
 </div>
 
-@{
+@{ 
 
-    using (muleEntities db = new muleEntities())
+    if (ViewBag.searchedGroupName != null)
     {
-        var groupsSearch =
-        (from g in db.groups.OrderByDescending(x => x.group_id)
-         select new
-         {
-             groupID = g.group_id,
-             groupName = g.group_name,
-             groupDesc = g.description
-         }).ToList().Take(5);
-
-
-        @:<h2>
-            @:Recomended groups
-        @:</h2>
-        @:<div class="row">
-            @:<div class="col-md-12">
-            @:<h4>
-                @:Explore new groups.
-            @:</h4>
-            <hr />
-            @:</div>
-        @:</div>
-        foreach (var g in groupsSearch)
+        string searchedGroupName = ViewBag.searchedGroupName;
+        using (muleEntities db = new muleEntities())
         {
+            var groupsSearch =
+            (from g in db.groups.OrderBy(x => x.group_name)
+             where g.group_name.Contains(searchedGroupName)
+             select new
+             {
+                 groupID = g.group_id,
+                 groupName = g.group_name,
+                 groupDesc = g.description
+             }).ToList();
+
+
+            @:<h2>
+                @:Search Results
+            @:</h2>
             @:<div class="row">
                 @:<div class="col-md-12">
-                    @:<div class="card">
-                        @:<h3> 
-                            @g.groupName
-                        @:</h3>
+                @:<h4>
+                    @:Group names containing '@searchedGroupName'
+                @:</h4>
+                <hr />
+                @:</div>
+            @:</div>
+            foreach (var g in groupsSearch)
+            {
+                @:<div class="row">
+                    @:<div class="col-md-12">
+                        @:<div class="card">
+                            @:<h3> 
+                                @g.groupName
+                            @:</h3>
 
-                        @:<p>
-                            @g.groupDesc
-                            @:</p>
-                        @Html.ActionLink("View Group Page", "Groups", "Account")
+                            @:<p>
+                                @g.groupDesc
+                                @:</p>
+                            @Html.ActionLink("View Group Page", "Groups", "Account")
+                            @:</div>
                         @:</div>
                     @:</div>
-                @:</div>
+            }
+            if(groupsSearch.Count() == 0)
+            {
+                @:<div class="row">
+                @:<div class="col-md-12">
+                    @:<div class="card">
+                        @:<h3>
+                            @:No results found
+                        @:</h3>
+                                @:<p>
+                                    @:Could not find a group matching the input name. Please try again.
+                                @:</p>
+                     @:</div>
+                 @:</div>
+                 @:</div>
+            }
         }
     }
 
+    else
+    {
+        using (muleEntities db = new muleEntities())
+        {
+            var groupsSearch =
+            (from g in db.groups.OrderByDescending(x => x.group_id)
+             select new
+             {
+                 groupID = g.group_id,
+                 groupName = g.group_name,
+                 groupDesc = g.description
+             }).ToList().Take(5);
 
 
-}
+            @:<h2>
+                @:Recomended groups
+            @:</h2>
+            @:<div class="row">
+                @:<div class="col-md-12">
+                @:<h4>
+                    @:Explore new groups.
+                @:</h4>
+                <hr />
+                @:</div>
+            @:</div>
+            foreach (var g in groupsSearch)
+                {
+                @:<div class="row">
+                    @:<div class="col-md-12">
+                        @:<div class="card">
+                            @:<h3> 
+                                @g.groupName
+                            @:</h3>
+
+                            @:<p>
+                                @g.groupDesc
+                                @:</p>
+                            @Html.ActionLink("View Group Page", "Groups", "Account")
+                            @:</div>
+                        @:</div>
+                    @:</div>
+                }
+            }
+        }
+
+
+
+    }

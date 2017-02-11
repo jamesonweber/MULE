@@ -149,14 +149,15 @@ namespace MULE.Controllers
         //
         // POST: /Account/Search
         [HttpPost]
-        public ActionResult Search(group model)
+        public ActionResult Search(group g)
         {
             if (ModelState.IsValid)
             {
-                
+                ViewBag.searchedGroupName = g.group_name;
+                return View(g);
             }
             // somthing went wrong so return to page if there is an error
-            return View(model);
+            return View(g);
         }
     }
 }

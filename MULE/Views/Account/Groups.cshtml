@@ -55,7 +55,7 @@
                     @:<p>
                         @g.groupDesc
                     @:</p>
-                    @Html.ActionLink("View Group Page", "Groups", "Account")
+                    @Html.ActionLink("View Group Page", "Group", "Account", new { g_id = g.groupID }, null)
                     @:|
                     @Html.ActionLink("Leave Group", "Groups", "Account")
                 @:</div>

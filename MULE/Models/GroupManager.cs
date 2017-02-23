@@ -37,6 +37,26 @@ namespace MULE.Models
             }
         }
 
+        public bool checkMembership(int u_id, int g_id)
+        {
+            using (muleEntities db = new muleEntities())
+            {
+                return db.user_group.Where(o => (o.group_id.Equals(g_id) && o.user_id.Equals(u_id))).Any();
+            }
+        }
+
+        public group getGroup(int id)
+        {
+            using (muleEntities db = new muleEntities())
+            {
+                var group = db.groups.Where(o => o.group_id.Equals(id));
+                if (group.Any())
+                    return group.FirstOrDefault();
+                else
+                    return null;
+            }
+        }
+
         public bool doesGroupExist(string name)
         {
             using (muleEntities db = new muleEntities())

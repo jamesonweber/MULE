@@ -98,6 +98,19 @@ namespace MULE.Controllers
             return View();
         }
 
+        //
+        // GET: /Account/FrontPage
+        [Authorize]
+        public ActionResult Group(int g_id)
+        {
+            GroupManager GM = new GroupManager();
+            group g = GM.getGroup(g_id);
+            if (g != null)
+            {
+                return View(g);
+            }
+            return View();
+        }
 
         //
         // GET: /Account/Groups

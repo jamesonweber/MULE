@@ -9,7 +9,7 @@
 <div class="row">
     <div class="col-md-12">
         <section id="searchForm">
-            @using (Html.BeginForm("Search", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", @placeholder = "Search by group name" }))
+            @using (Html.BeginForm("Search", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", @placeholder = "Search by group name", role = "form" }))
             {
                 <h4>Find new groups.</h4>
                 <hr />

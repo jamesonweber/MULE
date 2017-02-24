@@ -37,6 +37,46 @@ namespace MULE.Models
             }
         }
 
+        public void RemoveMember(group g, string email)
+        {
+            UserManager UM = new UserManager();
+
+            int id = UM.getUserId(email);
+
+            using (muleEntities db = new muleEntities())
+            {
+                var record = db.user_group.FirstOrDefault(m => m.group_id == g.group_id
+                                                                && m.user_id == id);
+              
+                if (record != null)
+                {
+                    db.user_group.Remove(record);
+                    db.SaveChanges();
+                }
+                
+            }
+        }
+
+        public void AddMember(group g, string email)
+        {
+            UserManager UM = new UserManager();
+
+            int id = UM.getUserId(email);
+
+            using (muleEntities db = new muleEntities())
+            {
+                user_group nug = new user_group();
+                nug.group_id = g.group_id;
+                nug.user_id = id;
+                nug.is_approved = 1;
+
+                db.user_group.Add(nug);
+                db.SaveChanges();
+
+            }
+
+        }
+
         public bool checkMembership(int u_id, int g_id)
         {
             using (muleEntities db = new muleEntities())

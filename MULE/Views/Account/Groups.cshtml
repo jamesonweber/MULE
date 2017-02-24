@@ -42,7 +42,7 @@
              groupID = ug.group_id,
              groupName = g.group_name,
              groupDesc = g.description
-         }).ToList();
+         }).OrderBy(x => x.groupName).ToList();
 
         foreach (var g in usergroups)
         {
@@ -56,8 +56,6 @@
                         @g.groupDesc
                     @:</p>
                     @Html.ActionLink("View Group Page", "Group", "Account", new { g_id = g.groupID }, null)
-                    @:|
-                    @Html.ActionLink("Leave Group", "Groups", "Account")
                 @:</div>
                 @:</div>
             @:</div>

@@ -98,6 +98,7 @@ namespace MULE.Controllers
             return View();
         }
 
+
         //
         // GET: /Account/FrontPage
         [Authorize]
@@ -110,6 +111,28 @@ namespace MULE.Controllers
                 return View(g);
             }
             return View();
+        }
+
+        //
+        // POST: /Account/FrontPage
+        [HttpPost]
+        [Authorize]
+        public ActionResult Group(group model, string groupBut)
+        {
+            GroupManager GM = new GroupManager();
+
+
+            if (groupBut.Equals("Join Group"))
+            {
+                GM.AddMember(model, User.Identity.Name);
+                return View(model);
+            }   
+            else if (groupBut.Equals("Leave Group"))
+            {
+                GM.RemoveMember(model, User.Identity.Name);
+                return RedirectToAction("Groups", "Account");
+            }
+            return View(model);
         }
 
         //

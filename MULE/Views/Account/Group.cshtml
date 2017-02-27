@@ -8,7 +8,6 @@
 
 @using (Html.BeginForm("Group", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
-
     <h2>@Html.DisplayFor(m => m.group_name)</h2>
     @Html.HiddenFor(m => m.group_id)
     @Html.HiddenFor(m => m.group_name)
@@ -23,24 +22,38 @@
     </div>
 
 
-        UserManager UM = new UserManager();
-        GroupManager GM = new GroupManager();
+    UserManager UM = new UserManager();
+    GroupManager GM = new GroupManager();
 
-        int u_id = UM.getUserId(User.Identity.Name);
-        int g_id = Model.group_id;
+    int u_id = UM.getUserId(User.Identity.Name);
+    int g_id = Model.group_id;
+    bool isMember = GM.checkMembership(u_id, g_id);
+    bool isOwner = GM.checkOwnership(u_id, g_id);
+    bool isActive = GM.checkActive(u_id, g_id);
 
         @:<div class="row">
             @:<div class="col-md-12">
                 @:<p>
-                    if (GM.checkMembership(u_id, g_id))
+                    if (isMember && !isOwner)
                     {
                         <input type="submit" name="groupBut" value="Leave Group" style="display: inline;" class="btn btn-default" />
+                    }
+                    else if (isMember && isOwner)
+                    {
+                        <input type="submit" name="groupBut" value="Manage Group" style="display: inline;" class="btn btn-default" />
                     }
                     else
                     {
                         <input type="submit" name="groupBut" value="Join Group" style="display: inline;" class="btn btn-default" />
                     }
 
+                @:</p>
+
+                @:<p>
+                    if(isMember && !isActive)
+                    {
+                        @:This group's posts will be displayed once the owner has approved your request to join.
+                    }
                 @:</p>
 
             @:</div>

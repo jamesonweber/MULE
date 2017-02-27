@@ -41,7 +41,7 @@ namespace MULE.Models
         {
             using (muleEntities db = new muleEntities())
             {
-                var user = db.users.Where(o => o.email.ToLower().Equals(email));
+                var user = db.users.Where(o => o.email.Equals(email));
                 if (user.Any())
                     return user.FirstOrDefault().user_id;
                 else

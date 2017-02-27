@@ -100,7 +100,7 @@ namespace MULE.Controllers
 
 
         //
-        // GET: /Account/FrontPage
+        // GET: /Account/Group
         [Authorize]
         public ActionResult Group(int g_id)
         {
@@ -114,13 +114,12 @@ namespace MULE.Controllers
         }
 
         //
-        // POST: /Account/FrontPage
+        // POST: /Account/Group
         [HttpPost]
         [Authorize]
         public ActionResult Group(group model, string groupBut)
         {
             GroupManager GM = new GroupManager();
-
 
             if (groupBut.Equals("Join Group"))
             {
@@ -132,8 +131,61 @@ namespace MULE.Controllers
                 GM.RemoveMember(model, User.Identity.Name);
                 return RedirectToAction("Groups", "Account");
             }
+            else if(groupBut.Equals("Manage Group"))
+            {
+                return RedirectToAction("ManageGroup", new { g_id = model.group_id });
+            }
             return View(model);
         }
+
+        //
+        //GET: /Account/ManageGroup
+        [Authorize]
+        public ActionResult ManageGroup(int g_id)
+        {
+            UserManager UM = new UserManager();
+            GroupManager GM = new GroupManager();
+
+            int u_id = UM.getUserId(User.Identity.Name);
+
+            if (GM.checkOwnership(u_id, g_id))
+            {
+                var model = GM.getGroup(g_id);
+                return View(model);
+            }
+            return RedirectToAction("AuthenticationError", "Account");
+        }
+
+        //
+        // POST: /Account/ManageGroup
+        [HttpPost]
+        [Authorize]
+        public ActionResult ManageGroup(group model, string groupBut, int userID)
+        {
+            GroupManager GM = new GroupManager();
+            if (groupBut.Equals("Approve"))
+            {
+                GM.approveMember(userID, model.group_id);
+                ModelState.AddModelError("", "User has been added to the group.");
+                return RedirectToAction("ManageGroup", new { g_id = model.group_id });
+            }
+            else if (groupBut.Equals("Decline"))
+            {
+                GM.declineMember(userID, model.group_id);
+                ModelState.AddModelError("", "User has been decined from the group.");
+                return RedirectToAction("ManageGroup", new { g_id = model.group_id });
+            }
+                return View(model);
+        }
+
+        //
+        //GET: /Account/ManageGroup
+        [Authorize]
+        public ActionResult AuthenticationError()
+        {
+            return View();
+        }
+
 
         //
         // GET: /Account/Groups

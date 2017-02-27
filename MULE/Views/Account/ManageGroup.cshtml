@@ -1,0 +1,74 @@
+﻿@using MULE.Models
+@model group
+
+@{
+    ViewBag.Title = "Manage Group Requests For " + Model.group_name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+@using (Html.BeginForm("ManageGroup", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+<div class="row">
+    <div class="col-md-12">
+        <section >
+
+                <h4>Approve users to join your group.</h4>
+                <hr />
+                @Html.HiddenFor(m => m.group_id)
+                @Html.HiddenFor(m => m.group_name)
+                @Html.HiddenFor(m => m.description)
+                @Html.ValidationSummary(true, "")
+        </section>
+    </div>
+</div>
+
+
+
+    using (muleEntities db = new muleEntities())
+    {
+
+        var newUsers =
+        (from ug in db.user_group
+         join u in db.users on ug.user_id equals u.user_id
+         where ug.group_id.Equals(Model.group_id) && ug.is_approved.Equals(0)
+         select new
+         {
+             userID = ug.user_id,
+             userName = u.email
+         }).ToList();
+
+        foreach (var u in newUsers)
+        {
+            @Html.Hidden("userID", u.userID)
+            @:<div class="row">
+                @:<div class="col-md-12">
+                    @:<p>
+                        @:<label class="col-md-2 control-label">@u.userName</label>
+                        @:<input type="submit" name="groupBut" value="Approve" style="display: inline;" class="btn btn-default" />
+                        @:<input type="submit" name="groupBut" value="Decline" style="display: inline;" class="btn btn-default" />
+                    @:</p>
+
+                @:</div>
+            @:</div>
+        }
+
+        if(newUsers.Count() == 0)
+        {
+            @:<div class="row">
+            @:<div class="col-md-12">
+                @:<div class="card">
+                    @:<h3>
+                        @:There are no request to join your group at this time
+                    @:</h3>
+                            @:<p>
+                                @Html.ActionLink("Return", "Group", "Account", new { g_id = Model.group_id }, null)
+                            @:</p>
+                 @:</div>
+             @:</div>
+             @:</div>
+        }
+
+    }
+
+}

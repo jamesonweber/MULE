@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "Authentication Error";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<div class="row">
+    <div class="col-md-12">
+        <h4>Unable to access this page.</h4>
+        <hr />
+    </div>
+    <div class="col-md-12">
+        @Html.ActionLink("Return Home", "FrontPage", "Account")
+    </div>
+</div>
+

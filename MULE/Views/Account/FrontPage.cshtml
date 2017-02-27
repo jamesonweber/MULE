@@ -1,4 +1,5 @@
-﻿
+﻿@using MULE.Models
+
 @{
     ViewBag.Title = "The Front Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,3 +12,65 @@
         <hr />
     </div>
 </div>
+
+@{ 
+
+    UserManager UM = new UserManager();
+
+    int u_id = UM.getUserId(User.Identity.Name);
+
+    using (muleEntities db = new muleEntities())
+    {
+        /*
+        var newPosts =
+        (from p in db.posts
+         join g in db.groups on p.group_id equals g.group_id
+         join u in db.users on p.user_id equals u.user_id
+         join s in db.sensors on p.post_id equals s.post_id
+         join l in db.positionings on p.post_id equals l.post_id
+         join ug in db.user_group on 
+         where ug.group_id.Equals(Model.group_id) && ug.is_approved.Equals(0)
+         select new
+         {
+             userID = ug.user_id,
+             userName = u.email
+         }).ToList();
+         */
+        var newPosts =
+        (from p in db.posts
+        select new
+        {
+            postID = p.post_id,
+            postStatus = p.post_status 
+        }).ToList();
+        foreach (var u in newPosts)
+        {
+            @Html.Hidden("userID", u.postID)
+            @:<div class="row">
+                @:<div class="col-md-12">
+                    @:<p>
+                        
+                    @:</p>
+
+                @:</div>
+            @:</div>
+        }
+
+        if(newPosts.Count() == 0)
+        {
+            @:<div class="row">
+            @:<div class="col-md-12">
+                @:<div class="card">
+                    @:<h3>
+                        @:Your current groups haven't made any posts.
+                    @:</h3>
+                            @:<p>
+                                @Html.ActionLink("Find new groups here", "Search", "Account")
+                            @:</p>
+                 @:</div>
+             @:</div>
+             @:</div>
+        }
+
+    }
+}

@@ -68,13 +68,63 @@ namespace MULE.Models
                 user_group nug = new user_group();
                 nug.group_id = g.group_id;
                 nug.user_id = id;
-                nug.is_approved = 1;
+                nug.is_approved = 0;
 
                 db.user_group.Add(nug);
                 db.SaveChanges();
 
             }
 
+        }
+
+        public void approveMember(int u_id, int g_id)
+        {
+
+            using (muleEntities db = new muleEntities())
+            {
+                var record = db.user_group.Where(x => x.user_id.Equals(u_id) && x.group_id.Equals(g_id)).FirstOrDefault();
+
+                if(record != null)
+                {
+                    record.is_approved = 1;
+                }
+
+                db.SaveChanges();
+
+            }
+        }
+
+        public void declineMember(int u_id, int g_id)
+        {
+
+            using (muleEntities db = new muleEntities())
+            {
+                var record = db.user_group.FirstOrDefault(m => m.group_id == g_id
+                                                                && m.user_id == u_id);
+
+                if (record != null)
+                {
+                    db.user_group.Remove(record);
+                    db.SaveChanges();
+                }
+
+            }
+        }
+
+        public bool checkActive(int u_id, int g_id)
+        {
+            using (muleEntities db = new muleEntities())
+            {
+                return db.user_group.Where(o => (o.group_id.Equals(g_id) && o.user_id.Equals(u_id) && o.is_approved==1)).Any();
+            }
+        }
+
+        public bool checkOwnership(int u_id, int g_id)
+        {
+            using (muleEntities db = new muleEntities())
+            {
+                return db.groups.Where(o => (o.group_id.Equals(g_id) && o.user_owner_id.Equals(u_id))).Any();
+            }
         }
 
         public bool checkMembership(int u_id, int g_id)

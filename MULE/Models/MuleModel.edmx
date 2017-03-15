@@ -50,7 +50,7 @@
           <Key>
             <PropertyRef Name="post_id" />
           </Key>
-          <Property Name="post_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="post_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="group_id" Type="int" Nullable="false" />
           <Property Name="user_id" Type="int" Nullable="false" />
           <Property Name="post_status" Type="nvarchar" MaxLength="500" />
@@ -62,8 +62,9 @@
           </Key>
           <Property Name="sensor_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="post_id" Type="int" Nullable="false" />
-          <Property Name="avg_primary_data" Type="nvarchar(max)" />
-          <Property Name="sem" Type="nvarchar(max)" />
+          <Property Name="avg_primary_data" Type="float" />
+          <Property Name="sd" Type="float" />
+          <Property Name="sem" Type="float" />
           <Property Name="meta_data" Type="nvarchar(max)" Nullable="false" />
           <Property Name="image" Type="image" />
         </EntityType>
@@ -413,12 +414,13 @@
           </Key>
           <Property Name="sensor_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="post_id" Type="Int32" Nullable="false" />
-          <Property Name="avg_primary_data" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="sem" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="avg_primary_data" Type="Double" Nullable="true" />
+          <Property Name="sem" Type="Double" Nullable="true" />
           <Property Name="meta_data" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="image" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="post" Relationship="muleModel.FK_sensor_posts" FromRole="sensor" ToRole="post" />
           <NavigationProperty Name="sensor_details" Relationship="muleModel.FK_sensor_details_sensor" FromRole="sensor" ToRole="sensor_details" />
+          <Property Name="sd" Type="Double" />
         </EntityType>
         <EntityType Name="sensor_details">
           <Key>
@@ -651,6 +653,7 @@
           <EntitySetMapping Name="sensors">
             <EntityTypeMapping TypeName="muleModel.sensor">
               <MappingFragment StoreEntitySet="sensor">
+                <ScalarProperty Name="sd" ColumnName="sd" />
                 <ScalarProperty Name="image" ColumnName="image" />
                 <ScalarProperty Name="meta_data" ColumnName="meta_data" />
                 <ScalarProperty Name="sem" ColumnName="sem" />

@@ -21,39 +21,61 @@
 
     using (muleEntities db = new muleEntities())
     {
-        /*
+
         var newPosts =
         (from p in db.posts
          join g in db.groups on p.group_id equals g.group_id
          join u in db.users on p.user_id equals u.user_id
          join s in db.sensors on p.post_id equals s.post_id
          join l in db.positionings on p.post_id equals l.post_id
-         join ug in db.user_group on 
-         where ug.group_id.Equals(Model.group_id) && ug.is_approved.Equals(0)
+         join ug in db.user_group on new { p.group_id } equals new { ug.group_id}
+         where ug.is_approved.Equals(1) && ug.user_id == u_id
          select new
          {
-             userID = ug.user_id,
-             userName = u.email
-         }).ToList();
-         */
-        var newPosts =
-        (from p in db.posts
-        select new
-        {
-            postID = p.post_id,
-            postStatus = p.post_status 
-        }).ToList();
+             p.post_id,
+             p.user_id,
+             g.group_id,
+             g.group_name,
+             u.first_name,
+             u.last_name,
+             p.post_date,
+             p.post_status,
+             s.avg_primary_data,
+             s.sd,
+             s.sem,
+             s.meta_data,
+             l.northing,
+             l.easting,
+             l.euv_depth
+         }).OrderByDescending(x => x.post_date).ToList();
+
         foreach (var u in newPosts)
         {
-            @Html.Hidden("userID", u.postID)
+            @Html.Hidden("post_id", u.post_id)
             @:<div class="row">
-                @:<div class="col-md-12">
+            @:<div class="col-md-12">
+                @:<div class="card">
+                    @:<h3>
+                        @u.first_name @: @u.last_name in @Html.ActionLink(u.group_name, "Group", "Account", new { g_id = u.group_id }, null)
+                    @:</h3>
+                    @:<h4>
+                        @:At Northing: @u.northing, Easting: @u.easting, Depth: @u.euv_depth M (@u.post_date)
+                    @:</h4>
                     @:<p>
-                        
+                        @u.post_status
                     @:</p>
-
-                @:</div>
-            @:</div>
+                    @:<div style="border: thin solid black; margin:10px;">
+                        @:<p style="margin:10px">
+                            @u.avg_primary_data @: @u.meta_data
+                            @:<br />(SD: @u.sd, SEM: @u.sem)
+                        @:</p>
+                    @:</div>
+                    @:<p>
+                            @Html.ActionLink("Discuss", "Search", "Account")
+                    @:</p>
+                 @:</div>
+             @:</div>
+             @:</div>
         }
 
         if(newPosts.Count() == 0)

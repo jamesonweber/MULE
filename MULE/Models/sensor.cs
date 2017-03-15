@@ -22,10 +22,11 @@ namespace MULE.Models
     
         public int sensor_id { get; set; }
         public int post_id { get; set; }
-        public string avg_primary_data { get; set; }
-        public string sem { get; set; }
+        public Nullable<double> avg_primary_data { get; set; }
+        public Nullable<double> sem { get; set; }
         public string meta_data { get; set; }
         public byte[] image { get; set; }
+        public Nullable<double> sd { get; set; }
     
         public virtual post post { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

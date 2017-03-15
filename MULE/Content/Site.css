@@ -119,6 +119,22 @@ a:hover {
     color:#00acd7;
 }
 
+.card > p > a {
+    color: #00acd7;
+}
+
+.card > p > a:hover {
+    color:#00acd7;
+}
+
+.card > h3 > a {
+    color: #00acd7;
+}
+
+.card > h3 > a:hover {
+    color:#00acd7;
+}
+
 .imgcard
 {
     background-color:#ffffff;

@@ -1,21 +1,18 @@
 ﻿@using MULE.Models
-@model group
+@model post
 
 @{
-    ViewBag.Title = "Group";
+    ViewBag.Title = "Comment";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("Group", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("Comment", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
-    <h2>@Html.DisplayFor(m => m.group_name)</h2>
-    @Html.HiddenFor(m => m.group_id)
-    @Html.HiddenFor(m => m.group_name)
-    @Html.HiddenFor(m => m.description)
+    <h2>Discussion</h2>
     <div class="row">
         <div class="col-md-12">
             <section id="groupsForm">
-                    <h4>@Html.DisplayFor(m => m.description)</h4>
+                    <h4>Leave a comment.</h4>
                     <hr />
             </section>
         </div>
@@ -31,34 +28,6 @@
     bool isOwner = GM.checkOwnership(u_id, g_id);
     bool isActive = GM.checkActive(u_id, g_id);
 
-        @:<div class="row">
-            @:<div class="col-md-12">
-                @:<p>
-                    if (isMember && !isOwner)
-                    {
-                        <input type="submit" name="groupBut" value="Leave Group" style="display: inline;" class="btn btn-default" />
-                    }
-                    else if (isMember && isOwner)
-                    {
-                        <input type="submit" name="groupBut" value="Manage Group" style="display: inline;" class="btn btn-default" />
-                    }
-                    else
-                    {
-                        <input type="submit" name="groupBut" value="Join Group" style="display: inline;" class="btn btn-default" />
-                    }
-
-                @:</p>
-
-                @:<p>
-                    if(isMember && !isActive)
-                    {
-                        @:This group's posts will be displayed once the owner has approved your request to join.
-                    }
-                @:</p>
-
-            @:</div>
-        @:</div>
-
 
     if (isMember && isActive)
     {
@@ -72,11 +41,12 @@
              join s in db.sensors on p.post_id equals s.post_id
              join l in db.positionings on p.post_id equals l.post_id
              join ug in db.user_group on new { p.group_id } equals new { ug.group_id }
-             where ug.is_approved.Equals(1) && ug.user_id == u_id && p.group_id == g_id
+             where ug.is_approved.Equals(1) && ug.user_id == u_id && p.group_id == g_id && p.post_id == Model.post_id
              select new
              {
                  p.post_id,
                  p.user_id,
+                 g.group_id,
                  g.group_name,
                  u.first_name,
                  u.last_name,
@@ -98,7 +68,7 @@
                 @:<div class="col-md-12">
                     @:<div class="card">
                         @:<h3>
-                            @u.first_name @: @u.last_name
+                            @u.first_name @: @u.last_name in @Html.ActionLink(u.group_name, "Group", "Account", new { g_id = u.group_id }, null)
                         @:</h3>
                         @:<h4>
                             @:At Northing: @u.northing, Easting: @u.easting, Depth: @u.euv_depth M (@u.post_date)
@@ -112,30 +82,58 @@
                                 @:<br />(SD: @u.sd, SEM: @u.sem)
                             @:</p>
                         @:</div>
-                        @:<p>
-                                @Html.ActionLink("Discuss", "Comment", "Account", new { post_id = u.post_id }, null)
-                        @:</p>
                      @:</div>
                  @:</div>
                  @:</div>
             }
 
-            if (newPosts.Count() == 0)
-            {
-                @:<div class="row">
-                @:<div class="col-md-12">
-                    @:<div class="card">
-                        @:<h3>
-                            @:This group hasn't made any posts.
-                        @:</h3>
-                                @:<p>
-                                    @Html.ActionLink("Find new groups here", "Search", "Account")
-                                @:</p>
-                     @:</div>
-                 @:</div>
-                 @:</div>
+            <div class="card">
+                <div class="row" style="padding-top:20px">
+                    <div class="col-md-12">
+                        <h4>
+                            Add a comment.
+                        </h4>
+                        @Html.TextArea("commentTA", new { @class = "form-control", @placeholder = "Join the discussion" })
+                        <div style="padding-top:5px">
+                            <input type="submit" value="Post" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+                @{ 
+                    var usrcomments =
+                    (from p in db.posts
+                     join c in db.comments on p.post_id equals c.post_id
+                     join u in db.users on c.user_id equals u.user_id
+                     where p.post_id == Model.post_id
+                     select new
+                     {
+                         p.post_id,
+                         p.user_id,
+                         u.first_name,
+                         u.last_name,
+                         c.comment1,
+                         c.comment_date
+                     }).OrderByDescending(x => x.comment_date).ToList();
+
+                    foreach (var c in usrcomments)
+                    {
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr />
+                        <h4>
+                            @c.first_name @c.last_name (@c.comment_date)
+                        </h4>
+                        <p>
+                            @c.comment1
+                        </p>
+                        
+                    </div>
+                </div>
+                    }
+                    }
+            </div>
             }
         }
+
     }
 
-}

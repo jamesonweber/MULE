@@ -135,6 +135,18 @@ namespace MULE.Models
             }
         }
 
+        public post getPost(int id)
+        {
+            using (muleEntities db = new muleEntities())
+            {
+                var post = db.posts.Where(o => o.post_id.Equals(id));
+                if (post.Any())
+                    return post.FirstOrDefault();
+                else
+                    return null;
+            }
+        }
+
         public group getGroup(int id)
         {
             using (muleEntities db = new muleEntities())

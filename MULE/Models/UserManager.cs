@@ -29,6 +29,23 @@ namespace MULE.Models
             }
         }
 
+        public void AddComment(int post_id, int user_id, String commentTA)
+        {
+            using (muleEntities db = new muleEntities())
+            {
+
+                comment nc = new comment();
+                nc.comment_date = DateTime.Now;
+                nc.comment1 = commentTA;
+                nc.user_id = user_id;
+                nc.post_id = post_id;
+
+                db.comments.Add(nc);
+                db.SaveChanges();
+
+            }
+        }
+
         public bool doesEmailExist(string email)
         {
             using (muleEntities db = new muleEntities())

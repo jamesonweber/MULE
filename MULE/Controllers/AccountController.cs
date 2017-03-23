@@ -98,6 +98,32 @@ namespace MULE.Controllers
             return View();
         }
 
+        //
+        // GET: /Account/Comment
+        [Authorize]
+        public ActionResult Comment(int post_id)
+        {
+            GroupManager GM = new GroupManager();
+            post p = GM.getPost(post_id);
+            if (p != null)
+            {
+                return View(p);
+            }
+            return View();
+        }
+
+        //
+        // POST: /Account/Comment
+        [HttpPost]
+        [Authorize]
+        public ActionResult Comment(post model, String commentTA)
+        {
+            UserManager UM = new UserManager();
+            int u_id = UM.getUserId(User.Identity.Name);
+            UM.AddComment(model.post_id, u_id, commentTA);
+
+            return RedirectToAction("Comment", "Account", new { post_id = model.post_id });
+        }
 
         //
         // GET: /Account/Group

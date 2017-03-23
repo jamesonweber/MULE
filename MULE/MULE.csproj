@@ -308,6 +308,7 @@
     <Content Include="Views\Account\Group.cshtml" />
     <Content Include="Views\Account\AuthenticationError.cshtml" />
     <Content Include="Views\Account\ManageGroup.cshtml" />
+    <Content Include="Views\Account\Comment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

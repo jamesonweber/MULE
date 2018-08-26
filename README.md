@@ -2,7 +2,7 @@
 MULE Website for posting and discussing information / data collected by the MULE
 
 # Summary
-The MULE (Modular Underwater Linked Explorer) is a remotely controlled underwater drone. The MULE was created as a final year interdisciplinary engineering capstone project with work from a group of mechanical, electrical, geomatics, and software engineering disciplines.
+The MULE (Modular Underwater Linked Explorer) is a remotely controlled underwater drone. The MULE was created as a final year interdisciplinary engineering capstone project with work from a group of mechanical, electrical, geomatics, and software engineering discipline students.
 
 The overall solution consisted of four main components
 - An operational, underwater vehicle
